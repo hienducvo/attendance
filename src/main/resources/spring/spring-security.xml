@@ -1,0 +1,113 @@
+
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd">
+	
+	<http auto-config="true">
+		
+		<intercept-url pattern="/" access="permitAll" />
+
+		
+		<!-- AttendanceRecordController -->
+		<intercept-url pattern="/attendancerecord/all" access="hasAnyRole('ROLE_ADMIN', 'ROLE_FACULTY')" />
+		<intercept-url pattern="/attendancerecord/add" access="hasRole('ROLE_ADMIN')" />
+		<intercept-url pattern="/attendancerecord/update" access="hasRole('ROLE_ADMIN')" />
+		<intercept-url pattern="/attendancerecord/delete/{attendanceRecordsId}" access="hasRole('ROLE_ADMIN')" />
+		<intercept-url pattern="/attendancerecord/getbyid/{attendanceRecordsId}" access="hasAnyRole('ROLE_ADMIN','ROLE_FACULTY')" />
+		<intercept-url pattern="/attendancerecord/getbystudentid/{studentId}" access="hasAnyRole('ROLE_STUDENT', 'ROLE_FACULTY','ROLE_ADMIN')"/>
+		<intercept-url pattern="/attendancerecord/getstudentsbyoffering/{courseOfferingId}" access="hasAnyRole('ROLE_ADMIN','ROLE_FACULTY')" />
+		<intercept-url pattern="/attendancerecord/getAttendanceRecordsForFaculty/{studentId}/{courseOfferingId}" access="hasAnyRole('ROLE_FACULTY','ROLE_ADMIN')" />
+		
+		<!--CourseController  -->
+		<intercept-url pattern="/admin/course/all" access="hasAnyRole( 'ROLE_FACULTY','ROLE_ADMIN')" />
+		<intercept-url pattern="/admin/course/add" access="hasRole('ROLE_ADMIN')" />
+		<intercept-url pattern="/admin/course/update" access="hasRole('ROLE_ADMIN')" />
+		<intercept-url pattern="/admin/course/delete/{courseId}" access="hasRole('ROLE_ADMIN')" />
+		
+		<!-- StudentController -->
+		<intercept-url pattern="/student/all" access="hasAnyRole('ROLE_FACULTY','ROLE_ADMIN')" />
+		<intercept-url pattern="/student/add" access="hasRole('ROLE_ADMIN')" />
+		<intercept-url pattern="/student/update" access="hasRole('ROLE_ADMIN')" />
+		<intercept-url pattern="/student/delete/{studentId}" access="hasRole('ROLE_ADMIN')" />
+		<intercept-url pattern="/student/{courseId}" access="hasAnyRole('ROLE_FACULTY','ROLE_ADMIN')" />
+		
+		<!-- SessionController -->
+		<intercept-url pattern="/session/all" access="hasAnyRole('ROLE_FACULTY','ROLE_ADMIN')" />
+		<intercept-url pattern="/session/add" access="hasRole('ROLE_ADMIN')" />
+		<intercept-url pattern="/session/update" access="hasRole('ROLE_ADMIN')" />
+		<intercept-url pattern="/session/delete/{sessionId}" access="hasRole('ROLE_ADMIN')" />
+		<intercept-url pattern="/session/{getStudentBySession}" access="hasAnyRole('ROLE_FACULTY','ROLE_ADMIN')" />
+		<intercept-url pattern="/session/courseoffering/{courseOfferingId}" access="hasAnyRole('ROLE_FACULTY','ROLE_ADMIN')" />
+		
+		
+		<!--CourseOfferingController  -->
+		<intercept-url pattern="/admin/offering/add" access="hasRole('ROLE_ADMIN')" />
+		<intercept-url pattern="/admin/offering/all" access="hasAnyRole('ROLE_ADMIN','ROLE_FACULTY')" />
+		<intercept-url pattern="/admin/offering/update" access="hasRole('ROLE_ADMIN')" />
+		<intercept-url pattern="/admin/offering/delete" access="hasRole('ROLE_ADMIN')" />
+		<intercept-url pattern="/getofferingbyid/{offeringId}" access="hasAnyRole('ROLE_FACULTY','ROLE_ADMIN')" />
+		<intercept-url pattern="/getofferingbycourseid/{courseId}" access="hasAnyRole('ROLE_FACULTY','ROLE_ADMIN')" />
+		
+		<!--TimeslotController  -->
+		<intercept-url pattern="/timeslot/all" access="hasAnyRole('ROLE_ADMIN', 'ROLE_FACULTY')" />
+		<intercept-url pattern="/timeslot/add" access="hasRole('ROLE_ADMIN')" />
+		<intercept-url pattern="/timeslot/update" access="hasRole('ROLE_ADMIN')" />
+		<intercept-url pattern="/timeslot/delete/{courseId}" access="hasRole('ROLE_ADMIN')" />
+		
+		<!--StudentController  -->
+		<intercept-url pattern="/location/all" access="hasAnyRole('ROLE_ADMIN', 'ROLE_FACULTY')" />
+		<intercept-url pattern="/location/add" access="hasRole('ROLE_ADMIN')" />
+		<intercept-url pattern="/location/update" access="hasRole('ROLE_ADMIN')" />
+		<intercept-url pattern="/location/delete/{timeslotId}" access="hasRole('ROLE_ADMIN')" />
+		
+		<!--UserController  -->
+		<intercept-url pattern="/admin/student/add" access="hasRole('ROLE_ADMIN')" />
+		<intercept-url pattern="/admin/student/update" access="hasRole('ROLE_ADMIN')" />
+		<intercept-url pattern="/admin/student/delete/{studentId}" access="hasRole('ROLE_ADMIN')" />
+		<intercept-url pattern="/admin/student/all" access="hasRole('ROLE_ADMIN')" />
+		
+		<intercept-url pattern="/admin/faculty/add" access="hasRole('ROLE_ADMIN')" />
+		<intercept-url pattern="/admin/faculty/update" access="hasRole('ROLE_ADMIN')" />
+		<intercept-url pattern="/admin/faculty/delete/{facultyId}" access="hasRole('ROLE_ADMIN')" />
+		<intercept-url pattern="/admin/faculty/all" access="hasRole('ROLE_ADMIN')" />
+		
+		<intercept-url pattern="/admin/admin/add" access="hasRole('ROLE_ADMIN')" />
+		<intercept-url pattern="/admin/admin/update" access="hasRole('ROLE_ADMIN')" />
+		<intercept-url pattern="/admin/admin/delete/{adminId}" access="hasRole('ROLE_ADMIN')" />
+		<intercept-url pattern="/admin/admin/all" access="hasRole('ROLE_ADMIN')" />
+		
+		<form-login default-target-url="/"/>
+		<logout logout-success-url="/" />
+		<csrf disabled="true"/>
+		
+	</http>
+	
+	<authentication-manager  alias="authenticationManager">
+		<authentication-provider>
+			<jdbc-user-service data-source-ref="dtSource"
+				users-by-username-query="select username, password, enabled from user where username=?"
+				authorities-by-username-query="select u.username, ur.name from user u, authority ur where u.authorityId = ur.id and u.username=?" />
+		</authentication-provider>
+	</authentication-manager> 
+	
+   <beans:bean id="dtSource" class="org.apache.commons.dbcp2.BasicDataSource"
+		destroy-method="close">
+		 <beans:property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		 <beans:property name="url" value="jdbc:mysql://us-cdbr-iron-east-04.cleardb.net/ad_4f950f17af38f67" />
+		 <beans:property name="username" value="b734bfbd330b10" />
+		 <beans:property name="password" value="8b56818f" />
+
+	</beans:bean>
+	
+<!-- 	<beans:bean id="dtSource" class="org.apache.commons.dbcp2.BasicDataSource"	destroy-method="close">
+		<beans:property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<beans:property name="url" value="jdbc:mysql://localhost:3306/attendance" />
+		<beans:property name="username" value="cs544" />
+		<beans:property name="password" value="201511" />
+
+	</beans:bean>  -->
+</beans:beans>
